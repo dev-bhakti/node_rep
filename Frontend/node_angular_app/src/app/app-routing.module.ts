@@ -4,7 +4,7 @@ import { DepartmentsComponent } from './departments/departments.component';
 import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  // { path: '', component: AppComponent },
+  { path: '', redirectTo: 'home', pathMatch:'full' },
   { path: 'departments', component: DepartmentsComponent }
 ];
 

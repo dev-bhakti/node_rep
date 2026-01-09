@@ -9,21 +9,21 @@ import { filter } from 'rxjs/operators';
 })
 export class AppComponent {
 
-  showDeptButton: boolean = true;
-  showHomeButton:boolean= false;
+  isDeptPage:boolean = false;
   constructor(private router: Router) {}
+  
   ngOnInit(): void {
-    // Subscribe to router events and filter for NavigationEnd events
-    
+  this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event:any)=>{
+    this.isDeptPage = event.urlAfterRedirects.includes('/departments')
+  });
+  }
+  
+  goToDepartment(){
+    this.router.navigate(['/departments'])
   }
 
-  currentUrl :string = '/';
-
-    isHomePage(): boolean {
-    return this.currentUrl === '/';
+   goToHome(){
+    this.router.navigate(['/'])
   }
 
-  isDepartmentsPage(): boolean {
-    return this.currentUrl === '/departments';
-  }
  }
