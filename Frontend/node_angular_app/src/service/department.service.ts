@@ -10,20 +10,14 @@ import { Department } from './../models/department.model';
 
 export class DepartmentService {
 
-  private baseUrl = 'http://localhost:3000/api/departments/all-departments';
+  private readonly baseUrl = 'http://localhost:3000/api/departments';
+
   constructor(private http: HttpClient) { }
 
-
-  departments: any[] = [];
-  getPosts(): any {
-    this.http.get<any>('http://localhost:3000/api/departments/all-departments').subscribe(res => {
-      console.log('Data fetched successfully:', res);
-      // Assign the 'response' array to the departments property
-      this.departments = res.response;
-    });
+  fetchDepartments(): Observable<{ response: Department[] }> {
+    return this.http.get<{ response: Department[] }>(
+      `${this.baseUrl}/all-departments`
+    )
   }
-}
-function signal<T>(arg0: never[]) {
-  throw new Error('Function not implemented.');
 }
 

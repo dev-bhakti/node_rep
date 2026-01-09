@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { Department } from 'src/models/department.model';
 import { DepartmentService } from 'src/service/department.service';
 
 @Component({
@@ -9,21 +10,34 @@ import { DepartmentService } from 'src/service/department.service';
 })
 export class DepartmentsComponent implements OnInit {
 
-  departments: any[] = [];
+  departments: Department[] = [];
+  isLoading = false;
+
   errorMessage: string = '';
   allData: any;
 
-  constructor(private serv: DepartmentService, private http: HttpClient) { }
+  constructor(private departmentService: DepartmentService, private http: HttpClient) { }
 
   ngOnInit(): void {
     // this.fetchDepartments();
   }
 
   fetchDepartments() {
-    this.http.get<any>('http://localhost:3000/api/departments/all-departments').subscribe(res => {
-      console.log('Data fetched successfully:', res);
-      // Assign the 'response' array to the departments property
-      this.departments = res.response;
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.departmentService.fetchDepartments().subscribe({
+      next: (res) => {
+        console.log('Data fetched successfully:', res);
+        this.departments = res.response; // assuming your API returns { response: [...] }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Failed to fetch departments', err);
+        this.errorMessage = 'Failed to fetch departments. Please try again.';
+        this.isLoading = false;
+      }
     });
   }
 

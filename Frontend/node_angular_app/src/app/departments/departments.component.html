@@ -1,32 +1,36 @@
-<p *ngIf="!departments.length && !errorMessage">
-  <!-- Loading departments or no data available... -->
-</p>
-
-<!-- Optional button to manually trigger fetching if you want -->
 <button (click)="fetchDepartments()">Fetch Departments</button>
-<h2>User Data Table</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Department id</th>
-      <th>Department Name</th>
-      <th>Manager Id</th>
-      <th>Manager Firstname</th>
-      <th>Manager Lastname</th>
-      <th>Manager Joining Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let depts of departments">
-      <td>{{ depts.id }}</td>
-      <td>{{ depts.dept_id}}</td>
-      <td>{{ depts.dept_name}}</td>
-      <td>{{ depts.manager_id}}</td>
-      <td>{{ depts.manager_firstname}}</td>
-      <td>{{ depts.manager_lastname}}</td>
-      <td>{{ depts.manager_joining_date}}</td>
+<div class="department-container">
+    <h2>Departments Table</h2>
 
-    </tr>
-  </tbody>
-</table>
+    <div *ngIf="isLoading">Loading departments…</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <table class="dept-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Department id</th>
+                <th>Department Name</th>
+                <th>Manager Id</th>
+                <th>Manager Firstname</th>
+                <th>Manager Lastname</th>
+                <th>Manager Joining Date</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="!isLoading && !errorMessage && departments.length > 0">
+            <tr *ngFor="let dept of departments; let i = index">
+                <td>{{ dept.id }}</td>
+                <td>{{ dept.dept_id }}</td>
+                <td>{{ dept.dept_name }}</td>
+                <td>{{ dept.manager_id }}</td>
+                <td>{{ dept.manager_firstname }}</td>
+                <td>{{ dept.manager_lastname }}</td>
+                <td>{{ dept.manager_joining_date }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="!isLoading && !errorMessage && departments.length === 0">
+        No departments found.
+    </div>
+</div>
