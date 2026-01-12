@@ -1,6 +1,7 @@
 
 const express = require('express');
-const db = require('../models')
+const db = require('../models');
+const carts = require('../models/carts');
 const cartRouter = express.Router();
 
 // Example pizzas catalog (replace with DB or actual source)
@@ -11,7 +12,52 @@ const cartRouter = express.Router();
 // ];
 
 // In-memory cart (per server)
-let cart = [];
+// let cart = [];
+
+// let cart = [
+//   { id: 'p1', name: 'Laptop', qty: 1, price: 65000 },
+//   { id: 'p2', name: 'Mouse', qty: 2, price: 800 },
+//   { id: 'p3', name: 'Keyboard', qty: 1, price: 1500 }
+// ];
+
+
+cartRouter.get('/cart', (req, res) => {
+  res.json({
+    items: cart,
+    totalItems: cart.reduce((sum, item) => sum + item.qty, 0),
+    totalAmount: cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+  });
+});
+
+
+// cartRouter.delete('/cart/:id', (req, res) => {
+//   const { id } = req.params;
+
+//   const index = cart.findIndex(item => item.id === id);
+//   if (index === -1) {
+//     return res.status(404).json({ message: `Item with id '${id}' not found.` });
+//   }
+
+//   // Remove the item
+//   const removed = cart.splice(index, 1)[0];
+
+//   // Return remaining items
+//   return res.json({
+//     message: `Removed '${removed.name}' from cart.`,
+//     removedItem: removed,
+//     remaining: cart,
+//     totalItems: cart.reduce((sum, item) => sum + item.qty, 0),
+//     totalAmount: cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+//   });
+// });
+
+// // Optional: Clear entire cart
+// cartRouter.delete('/cart', (req, res) => {
+//   cart = [];
+//   res.json({ message: 'Cart cleared.', remaining: cart, totalItems: 0, totalAmount: 0 });
+// });
+
+
 
 /**
  * POST /api/cart/add
@@ -42,13 +88,14 @@ cartRouter.post('/cart/add', async (req, res) => {
     }
 
     // Add/update cart
-    const existingItem = cart.find(item => item.id === pizza_id);
+    // const existingItem = db.carts.find(item => item.id === pizza_id);
+    const existingItem = await db.carts.findOne({pizza_id: pizza_id});
 
     if (existingItem) {
       existingItem.quantity += quantity;
       existingItem.total_price = existingItem.quantity * foundPizza.pizza_price;
     } else {
-      cart.push({
+      await db.carts.create({
         id: foundPizza.id,
         name: foundPizza.pizza_name,
         price: foundPizza.pizza_price,
@@ -60,7 +107,7 @@ cartRouter.post('/cart/add', async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Pizza added to cart",
-      cart,
+      carts,
     });
   } catch (err) {
     console.error('Error adding to cart:', err);

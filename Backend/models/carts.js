@@ -14,8 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   carts.init({
-     id: {type: DataTypes.INTEGER, primaryKey: true},
-    user_id: DataTypes.INTEGER
+    id: {type: DataTypes.INTEGER, primaryKey: true},
+    user_id: DataTypes.INTEGER,
+    cart_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'carts',
