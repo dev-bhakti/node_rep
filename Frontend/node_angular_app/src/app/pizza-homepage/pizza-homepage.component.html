@@ -2,36 +2,54 @@
 <!-- <button (click)="fetchPizzas()">Fetch Pizzas</button> -->
 
 <div class="pizza-container">
-  <h2>Pizza List</h2>
+    <h2>Pizza List</h2>
 
-  <div *ngIf="isLoading">Loading pizzas...</div>
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="isLoading">Loading pizzas...</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
-  <div *ngIf="!isLoading && !errorMessage && pizzas.length > 0" class="pizza-grid">
-    <div class="pizza-card" *ngFor="let pizza of pizzas">
-      <!-- Card Header -->
-      <div class="card-header">
-        <h3>{{ pizza.pizza_name }}</h3>
-        <span class="type">{{ pizza.pizza_type }}</span>
-      </div>
+    <div *ngIf="!isLoading && !errorMessage && pizzas.length > 0" class="pizza-grid">
+        <div class="pizza-card" *ngFor="let pizza of pizzas">
+            <!-- Card Header -->
+            <div class="card-header">
+                <h3>{{ pizza.pizza_name }}</h3>
+                <span class="type">{{ pizza.pizza_type }}</span>
+            </div>
 
-      <!-- Card Body -->
-      <div class="card-body">
-        <!-- <p><strong>ID:</strong> {{ pizza.id }}</p> -->
-        <img class="pizza_image" src="{{pizza.image}}" alt="Photo of pizza" />
-        <p><strong>Price:</strong> ₹{{ pizza.pizza_price }}</p>
-      </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <!-- <p><strong>ID:</strong> {{ pizza.id }}</p> -->
+                <img class="pizza_image" src="{{pizza.image}}" alt="Photo of pizza" />
+                <p><strong>Price:</strong> ₹{{ pizza.pizza_price }}</p>
+            </div>
 
-      <!-- Card Footer -->
-      <div class="card-footer">
-        <button class="order-btn">Order</button>
-      </div>
+            <!-- Card Footer -->
+
+            <!-- <div *ngIf="product"> -->
+            <!-- <h3>{{ pizza.pizza_name }}</h3>
+                <p>{{ pizza.pizza_type }}</p> -->
+
+            <!-- </div> -->
+            <div class="card-footer">
+                <!-- <button type="button" class="order-btn" (click)="addToCart(pizza)">Order</button> -->
+                <div class="product-item" data-product-id="123">
+
+                    <button class="add-to-cart-btn order-btn" (click)="addToCart(pizza)">Add to Cart</button>
+                </div>
+
+                <div class="cart-icon-container">
+                    <span class="cart-icon">🛒</span>
+                    <span id="cart-count">0</span>
+                </div>
+                <!-- <button class="order-btn">Order</button> -->
+            </div>
+
+
+        </div>
     </div>
-  </div>
 
-  <div *ngIf="!isLoading && !errorMessage && pizzas.length === 0">
-    No pizzas found.
-  </div>
+    <div *ngIf="!isLoading && !errorMessage && pizzas.length === 0">
+        No pizzas found.
+    </div>
 </div>
 
 <!--<button (click)="fetchPizzas()">Fetch Pizzas</button>

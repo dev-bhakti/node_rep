@@ -7,6 +7,9 @@ const authRouters = require('./routers/auth')
 const accountRouters = require('./routers/account')
 const departmentRouters = require('./routers/departments')
 const pizzaRouters = require('./routers/pizzas')
+const cartRouter = require('./routers/cartRouter');
+
+// const pizzaRouters = require('./pizzaRouters');
 
 app.use(cors())
 app.use(express.json())
@@ -14,6 +17,8 @@ app.use('/api/auth', authRouters)
 app.use('/api/account', accountRouters)
 app.use('/api/departments', departmentRouters)
 app.use('/api/pizzas', pizzaRouters)
+app.use('/api/carts', cartRouter)
+// app.use('/api', pizzaRouters)
 
 async function DbConnection() {
 	try {

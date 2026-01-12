@@ -16,6 +16,8 @@ export class PizzaHomepageComponent implements OnInit {
 
   errorMessage: string = '';
   allData: any;
+  product: Pizza[]=[]; // Assume you have a product loaded here
+
   constructor(private pizzaService: PizzaService, private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -39,6 +41,21 @@ export class PizzaHomepageComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+
+
+  addToCart(pizza: any) {
+    // this.pizzaService.addToCart(pizza);
+    
+// addPizza(pizza: Pizza) {
+    this.pizzaService.addToCart(pizza, 1).subscribe({
+      next: (res) => console.log('Added to cart:', res),
+      error: (err) => console.error('Add to cart error:', err),
+    });
+  // }
+
+    window.alert('Your product has been added to the cart!'); // Optional: provide user feedback
   }
 
 }

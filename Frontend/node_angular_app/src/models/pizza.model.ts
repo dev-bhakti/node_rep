@@ -1,5 +1,5 @@
 export class Pizza {
-  id?: any;
+  id: any;
   pizza_name?: string;
   pizza_type?: string;
   pizza_price?: number;

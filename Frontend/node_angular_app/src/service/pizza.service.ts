@@ -9,6 +9,8 @@ import { Pizza } from './../models/pizza.model';
 export class PizzaService {
 
 private readonly baseUrl = 'http://localhost:3000/api/pizzas';
+private readonly baseUrl1 = 'http://localhost:3000/api/carts';
+
 
   constructor(private http: HttpClient) { }
 
@@ -17,4 +19,32 @@ private readonly baseUrl = 'http://localhost:3000/api/pizzas';
       `${this.baseUrl}/all-pizzas`
     )
   }
+
+  // items: Pizza[] = [];
+
+  // addToCart(pizza: Pizza) {
+  //   this.items.push(pizza);
+  // }
+
+  // getItems() {
+  //   return this.items;
+  // }
+
+  
+ // Server-side add
+  addToCart(pizza: Pizza, quantity: number = 1): Observable<any> {
+    const body = { pizza_id: pizza.id, quantity };
+    return this.http.post(`${this.baseUrl}/cart/add`, body);
+  }
+
+  // Optional: get cart from server
+  getCart(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/cart`);
+  }
+
+
+  // clearCart() {
+  //   this.items = [];
+  //   return this.items;
+  // }
 }

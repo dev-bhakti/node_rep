@@ -19,5 +19,4 @@ pizzaRouters.get('/all-pizzas', async (req, res) => {
         })
     }
 })
-
 module.exports = pizzaRouters;
