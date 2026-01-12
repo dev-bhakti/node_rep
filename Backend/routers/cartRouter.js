@@ -1,13 +1,14 @@
 
 const express = require('express');
+const db = require('../models')
 const cartRouter = express.Router();
 
 // Example pizzas catalog (replace with DB or actual source)
-const pizzas = [
-  { id: 1, pizza_name: 'Margherita', pizza_price: 199 },
-  { id: 2, pizza_name: 'Farmhouse',  pizza_price: 299 },
-  { id: 3, pizza_name: 'Pepperoni',  pizza_price: 349 },
-];
+// const pizzas = [
+//   { id: 1, pizza_name: 'Margherita', pizza_price: 199 },
+//   { id: 2, pizza_name: 'Farmhouse',  pizza_price: 299 },
+//   { id: 3, pizza_name: 'Pepperonii',  pizza_price: 349 },
+// ];
 
 // In-memory cart (per server)
 let cart = [];
@@ -17,7 +18,7 @@ let cart = [];
  * Body: { pizza_id: number, quantity: number }
  * Returns: updated cart
  */
-cartRouter.post('/cart/add', (req, res) => {
+cartRouter.post('/cart/add', async (req, res) => {
   try {
     let { pizza_id, quantity } = req.body;
 
@@ -35,7 +36,7 @@ cartRouter.post('/cart/add', (req, res) => {
     }
 
     // Ensure pizza exists
-    const foundPizza = pizzas.find(p => p.id === pizza_id);
+    const foundPizza = await db.Pizza.findOne({where:{id: pizza_id}});
     if (!foundPizza) {
       return res.status(404).json({ success: false, message: "Pizza not found" });
     }
@@ -66,5 +67,34 @@ cartRouter.post('/cart/add', (req, res) => {
     return res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
+// cartRouter.delete('/cart/:pizza_id', (req, res) => {
+//     const pizzaId = req.params.pizza_id;
+
+//     // Find the index of the item with the matching ID
+//   if(!cart || !cart.items){
+//     return res.status(404).send({
+//       message: "Cart is empty"
+//     })
+//   }
+//     const itemIndex = cart.items.splice(item => item.id === pizzaId);
+
+//     if (itemIndex > -1) {
+//         // Remove the item from the array using splice()
+//         cart.items.splice(itemIndex, 1);
+
+//         // Optional: Recalculate cart total/bill if necessary
+//         // This logic is demonstrated in sources like
+
+//         // Send a success response (e.g., 200 OK or 204 No Content)
+//       return  res.status(200).send({ message: `Pizza with ID ${pizzaId} deleted from cart`, updatedCart: cart });
+//     } else {
+//         // If the item ID is not found, return a 404 Not Found error
+//         res.status(404).json({ message: `Pizza with ID ${pizzaId} not found in cart` });
+//     }
+// });
+
+
+
 
 module.exports = cartRouter;

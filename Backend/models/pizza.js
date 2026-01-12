@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     pizza_name: DataTypes.STRING,
     pizza_type: DataTypes.STRING,
     pizza_price: DataTypes.INTEGER,
+    pizza_id: DataTypes.INTEGER,
     image: DataTypes.STRING,
     id: {type: DataTypes.INTEGER, primaryKey: true}
   }, {

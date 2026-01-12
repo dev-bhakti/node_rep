@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, retry, throwError } from 'rxjs';
-import { Pizza } from './../models/pizza.model';
+import { AddToCartResponse, CartItem, Pizza } from './../models/pizza.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,24 @@ private readonly baseUrl1 = 'http://localhost:3000/api/carts';
     )
   }
 
+  
+addToCart(pizza: Pizza, quantity: number = 1): Observable<AddToCartResponse> {
+    const body = { pizza_id: pizza.id, quantity };
+    return this.http.post<AddToCartResponse>(`${this.baseUrl1}/cart/add`, body);
+  }
+
+  /**
+   * Optional: get current cart (if you add GET /cart on server)
+   */
+  getCart(): Observable<AddToCartResponse> {
+    return this.http.get<AddToCartResponse>(`${this.baseUrl1}/cart`);
+  }
+
+// getCartItems(cartId: string): Observable<CartItem> {
+//   return this.http.get(`${this.baseUrl1}/${cartId}/items`);
+// }
+
+
   // items: Pizza[] = [];
 
   // addToCart(pizza: Pizza) {
@@ -32,19 +50,23 @@ private readonly baseUrl1 = 'http://localhost:3000/api/carts';
 
   
  // Server-side add
-  addToCart(pizza: Pizza, quantity: number = 1): Observable<any> {
-    const body = { pizza_id: pizza.id, quantity };
-    return this.http.post(`${this.baseUrl}/cart/add`, body);
-  }
+  // addToCart(pizza: Pizza, quantity: number = 1): Observable<any> {
+  //   const body = { pizza_id: pizza.id, quantity };
+  //   return this.http.post(`${this.baseUrl}/cart/add`, body);
+  // }
 
-  // Optional: get cart from server
-  getCart(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/cart`);
-  }
+  // // Optional: get cart from server
+  // getCart(): Observable<any> {
+  //   return this.http.get(`${this.baseUrl}/cart`);
+  // }
 
 
   // clearCart() {
   //   this.items = [];
   //   return this.items;
   // }
+// }
+
+
+
 }
