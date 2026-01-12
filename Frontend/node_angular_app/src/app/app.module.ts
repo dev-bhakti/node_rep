@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DepartmentsComponent } from './departments/departments.component';
+import { PizzaHomepageComponent } from './pizza-homepage/pizza-homepage.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DepartmentsComponent
+    DepartmentsComponent,
+    PizzaHomepageComponent
   ],
   imports: [
     BrowserModule,

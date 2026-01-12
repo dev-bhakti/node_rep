@@ -1,6 +1,8 @@
 <div class="navigation-wrapper">
-  <button *ngIf="!isDeptPage" (click)="goToDepartment()">Go To Department Page</button><br>
-  <button *ngIf="isDeptPage" (click)="goToHome()">Go To Home</button>
+  <!-- <button *ngIf="!isDeptPage" (click)="goToDepartment()">Go To Department Page</button><br> -->
+  <!-- <button *ngIf="isDeptPage" (click)="goToHome()">Go To Home</button> -->
+  <button *ngIf="isPizzaPage" (click)="goToHome()">Go To Home</button>
+    <button *ngIf="!isPizzaPage" (click)="goToPizza()">Go To Pizzas page</button>
 </div>
 
 <router-outlet></router-outlet>

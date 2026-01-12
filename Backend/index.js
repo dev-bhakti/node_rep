@@ -6,12 +6,14 @@ const { sequelize } = require('./models')
 const authRouters = require('./routers/auth')
 const accountRouters = require('./routers/account')
 const departmentRouters = require('./routers/departments')
+const pizzaRouters = require('./routers/pizzas')
 
 app.use(cors())
 app.use(express.json())
 app.use('/api/auth', authRouters)
 app.use('/api/account', accountRouters)
 app.use('/api/departments', departmentRouters)
+app.use('/api/pizzas', pizzaRouters)
 
 async function DbConnection() {
 	try {

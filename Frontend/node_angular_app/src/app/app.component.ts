@@ -9,21 +9,27 @@ import { filter } from 'rxjs/operators';
 })
 export class AppComponent {
 
-  isDeptPage:boolean = false;
+  // isDeptPage:boolean = false;
+  isPizzaPage:boolean = false;
   constructor(private router: Router) {}
   
   ngOnInit(): void {
   this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event:any)=>{
-    this.isDeptPage = event.urlAfterRedirects.includes('/departments')
+    // this.isDeptPage = event.urlAfterRedirects.includes('/departments')
+    this.isPizzaPage = event.urlAfterRedirects.includes('/pizzas')
   });
   }
   
-  goToDepartment(){
-    this.router.navigate(['/departments'])
-  }
+  // goToDepartment(){
+  //   this.router.navigate(['/departments'])
+  // }
 
    goToHome(){
     this.router.navigate(['/'])
+  }
+
+  goToPizza(){
+    this.router.navigate(['/pizzas'])
   }
 
  }

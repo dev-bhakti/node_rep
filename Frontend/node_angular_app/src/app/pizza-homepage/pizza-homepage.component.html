@@ -1,0 +1,67 @@
+<p>pizza-homepage works!</p>
+<!-- <button (click)="fetchPizzas()">Fetch Pizzas</button> -->
+
+<div class="pizza-container">
+  <h2>Pizza List</h2>
+
+  <div *ngIf="isLoading">Loading pizzas...</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <div *ngIf="!isLoading && !errorMessage && pizzas.length > 0" class="pizza-grid">
+    <div class="pizza-card" *ngFor="let pizza of pizzas">
+      <!-- Card Header -->
+      <div class="card-header">
+        <h3>{{ pizza.pizza_name }}</h3>
+        <span class="type">{{ pizza.pizza_type }}</span>
+      </div>
+
+      <!-- Card Body -->
+      <div class="card-body">
+        <!-- <p><strong>ID:</strong> {{ pizza.id }}</p> -->
+        <img class="pizza_image" src="{{pizza.image}}" alt="Photo of pizza" />
+        <p><strong>Price:</strong> ₹{{ pizza.pizza_price }}</p>
+      </div>
+
+      <!-- Card Footer -->
+      <div class="card-footer">
+        <button class="order-btn">Order</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && pizzas.length === 0">
+    No pizzas found.
+  </div>
+</div>
+
+<!--<button (click)="fetchPizzas()">Fetch Pizzas</button>
+<div class="pizza-container">
+    <h2>Pizza Table</h2>
+
+    <div *ngIf="isLoading">Loading pizzas....</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <table class="pizza-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pizza Name</th>
+                <th>Pizza Type</th>
+                <th>Pizza Price</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="!isLoading && !errorMessage && pizzas.length > 0">
+            <tr *ngFor="let pizza of pizzas; let i = index">
+                <td>{{ pizza.id }}</td>
+                <td>{{ pizza.pizza_name }}</td>
+                <td>{{ pizza.pizza_type }}</td>
+                <td>{{ pizza.pizza_price }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="!isLoading && !errorMessage && pizzas.length === 0">
+        No pizzas found.
+    </div>
+</div> -->
