@@ -1,7 +1,6 @@
 
 const express = require('express');
-const db = require('../models');
-const carts = require('../models/carts');
+const db = require('../models')
 const cartRouter = express.Router();
 
 // Example pizzas catalog (replace with DB or actual source)
@@ -12,13 +11,7 @@ const cartRouter = express.Router();
 // ];
 
 // In-memory cart (per server)
-// let cart = [];
-
-// let cart = [
-//   { id: 'p1', name: 'Laptop', qty: 1, price: 65000 },
-//   { id: 'p2', name: 'Mouse', qty: 2, price: 800 },
-//   { id: 'p3', name: 'Keyboard', qty: 1, price: 1500 }
-// ];
+let cart = [];
 
 
 cartRouter.get('/cart', (req, res) => {
@@ -59,6 +52,30 @@ cartRouter.get('/cart', (req, res) => {
 
 
 
+
+// cartRouter.delete('/cart/:pizza_id', async (req, res) => {
+//   const { pizza_id } = req.params; // ✅ correct param
+
+//   // If your cart item IDs are numbers, convert:
+//   const id = Number(pizza_id); // or parseInt(pizza_id, 10)
+//   console.log(pizza_id,'pizz')
+  
+//   const index = await db.cart_items.findIndex(item => item.id === id);
+//   if (index === -1) {
+//     return res.status(404).json({ message: `Item with id '${pizza_id}' not found.` });
+//   }
+
+//   const removed = db.cart_items.splice(index, 1)[0];
+
+//   return res.json({
+//     message: `Removed '${removed.name}' from cart.`,
+//     removedItem: removed,
+//     remaining: cart,
+//     totalItems: cart.reduce((sum, item) => sum + item.qty, 0),
+//     totalAmount: cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+//   });
+// });
+
 /**
  * POST /api/cart/add
  * Body: { pizza_id: number, quantity: number }
@@ -88,14 +105,13 @@ cartRouter.post('/cart/add', async (req, res) => {
     }
 
     // Add/update cart
-    // const existingItem = db.carts.find(item => item.id === pizza_id);
-    const existingItem = await db.carts.findOne({pizza_id: pizza_id});
+    const existingItem = cart.find(item => item.id === pizza_id);
 
     if (existingItem) {
       existingItem.quantity += quantity;
       existingItem.total_price = existingItem.quantity * foundPizza.pizza_price;
     } else {
-      await db.carts.create({
+      cart.push({
         id: foundPizza.id,
         name: foundPizza.pizza_name,
         price: foundPizza.pizza_price,
@@ -107,7 +123,7 @@ cartRouter.post('/cart/add', async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Pizza added to cart",
-      carts,
+      cart,
     });
   } catch (err) {
     console.error('Error adding to cart:', err);
@@ -141,7 +157,21 @@ cartRouter.post('/cart/add', async (req, res) => {
 //     }
 // });
 
+cartRouter.delete('/cart/:id', async (req, res) => {
+  const { id } = req.params;
+  const deletedCount = await db.cart_items.destroy({
+    where:{id:id}
+  });
+  if(deletedCount === -1){
+    return res.status(404).json({message:`Item with id ${id} not found.`});
+  }
+    console.log(req.params,'paaa')
 
+  return res.json({
+    message:"Item removed successfully"
+  });
+  
+})
 
 
 module.exports = cartRouter;
